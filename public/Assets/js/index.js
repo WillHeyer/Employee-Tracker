@@ -33,67 +33,76 @@ const main = () => {
     }
 })
 
+const getEmployeeInformation = () => {
+// SQL Database?
+}
 
+const getDepartmentInformation = () => {
+    // SQL Database?
+    }
 
+const getEmployeeRolesInfo = () => {
+        // SQL Database?
+        }
 
+const getNewEmployeeInfo = () => {
 
-
-
-
-    {
+    inquirer
+       .prompt([
+       {
+           type: "input",
+           name: "FN",
+           message: "What is the firt name of the employee?",
+           
+       },
+       {
         type: "input",
-        name: "repoTitle",
-        message: "What is the title of your project?",
-    },
-    {
+        name: "LN",
+        message: "What is the last name of the employee?",
+        
+        },
+        {
         type: "input",
-        name: "usage",
-        message: "Provide instructions and examples for use.",
-    
-    },
-    {
+        name: "title",
+        message: "What is the their title?",
+        },
+        {
         type: "input",
-        name: "description",
-        message: "How would you describe this project?",
-    },
-    {
+        name: "department",
+        message: "What department are they in?",
+        },
+        {
         type: "input",
-        name: "technology",
-        message: "What technology was used?",
-    
-    },
-    {
-        type: "input",
-        name: "installation",
-        message: "What steps are required for installation?",
-    },
-    {
-        type: "input",
-        name: "contribution",
-        message: "Please list any collaborators, if any, along with any third-party assets that require attribution.",
-    },
-    {
-        type: "list",
-        name: "license",
-        message: "What license would you like for your project?",
-        choices: ["GNU AGPLv3", "GNU GPLv3", "GNU LGPLv3", "Mozilla Public License 2.0", "Apache License 2.0", "MIT License","Boost Software License 1.0", "The Unlicense",]
-    },
-    {
-        type: "input",
-        name: "test",
-        message: "Please provide examples on how to run tests",
-    
-    },
-    {
-        type: "input",
-        name: "inquiries",
-        message: "What is your email address for any future inquiries?",
-    
-    },
+        name: "manager",
+        message: "Who is their manager?",
+        },
     ]).then((answers) => {
-        const newEngineer = new Engineer(answers.name, answers.id, answers.email, answers.github)
+        const newEmployee = new Employee(answers.FN, answers.LN, answers.title, answers.department, answers.manager)
+        // team.push(newEngineer)
+        // employeeType()
+    })
+
+
+    
+    inquirer
+       .prompt([
+       {
+           type: "list",
+           name: "main",
+           message: "What would you like to do?",
+           choices: ["View all employees", "View employees by department", "View employees by role", "Add a new employee", "Add a new department", "Add a new role","Update employee roles",]
+       }
+    
+
+
+
+
+
+    
+    ]).then((answers) => {
+        const newEngineer = new Engineer(answers., answers.id, answers.email, answers.github)
         team.push(newEngineer)
         employeeType();
     })
 
-}
+
