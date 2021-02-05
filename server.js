@@ -30,17 +30,17 @@ const main = () => {
             switch (answer.main) {
                 case "View all employees": getEmployeeInformation()
                     break;
-                case "Department": getDepartmentInformation()
+                case "View employees by department": getDepartmentInformation()
                     break;
-                case "employeeRoles": getEmployeeRolesInfo()
+                case "View employees by role": getEmployeeRolesInfo()
                     break;
-                case "addEmployee": getNewEmployeeInfo()
+                case "Add a new employee": getNewEmployeeInfo()
                     break;
                 case "Add a new department": getNewDepartmentInfo()
                     break;
-                case "newRole": getNewRoleInfo()
+                case "Add a new role": getNewRoleInfo()
                     break;
-                case "updateRoles": getUpdateRoleInfo()
+                case "Update employee roles": getUpdateRoleInfo()
                     break;
                 case "Exit": getSQL()
                     break;
@@ -64,12 +64,26 @@ const main = () => {
 
     //View Employees By Department
     const getDepartmentInformation = () => {
-        // SQL Database?
+
+        connection.query("SELECT * FROM Department ", (err, queryResult) => {
+
+            console.log(err)
+            console.table(queryResult);
+
+            main();
+        })
     }
 
     // View Employees By Roles
     const getEmployeeRolesInfo = () => {
-        // SQL Database?
+
+      connection.query("SELECT * FROM Role ", (err, queryResult) => {
+
+            console.log(err)
+            console.table(queryResult);
+
+            main();
+        })
     }
 
     // Add New Employee
@@ -103,9 +117,13 @@ const main = () => {
                     message: "Who is their manager?",
                 },
             ]).then((answers) => {
-                // const newEmployee = new Employee(answers.FN, answers.LN, answers.title, answers.department, answers.manager)
-                // team.push(newEngineer)
-                // employeeType()
+                connection.query(`INSERT INTO Department (name) VALUES ("${answers.FN}", "${answers.LN}", "${answers.title}", "${answers.department}", "${answers.manager}" )`, (err, queryResult) => {
+
+                    console.log(err)
+                    console.table(queryResult);
+        
+                    main();
+                })
                 
             })
     }
@@ -121,9 +139,6 @@ const main = () => {
                     message: "What is the name of the new department?",
                 }
             ]).then((answers) => {
-                // const newDepartment = new Department(answers.newDepartment)
-                // team.push(newEngineer)
-                // employeeType()
 
                 connection.query(`INSERT INTO Department (name) VALUES ("${answers.newDepartment}")`, (err, queryResult) => {
 
@@ -147,9 +162,13 @@ const main = () => {
                     message: "What is the name of the new role?",
                 }
             ]).then((answers) => {
-                const newRole = new Role(answers.newRole)
-                // team.push(newEngineer)
-                // employeeType()
+                connection.query(`INSERT INTO Department (name) VALUES ("${answers.newRole}")`, (err, queryResult) => {
+
+                    console.log(err)
+                    console.table(queryResult);
+        
+                    main();
+                })
             })
     }
 
@@ -166,12 +185,10 @@ const main = () => {
 
             ]).then((answers) => {
                 const updateRole = new updateRole(answers.updateRole)
-                // team.push(newEngineer)
-                // employeeType()
+            
             })
 
     }
-
 
 
     connection.connect(() => {
