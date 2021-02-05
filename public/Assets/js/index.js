@@ -14,7 +14,7 @@ const main = () => {
         message: "What would you like to do?",
         choices: ["View all employees", "View employees by department", "View employees by role", "Add a new employee", "Add a new department", "Add a new role","Update employee roles",]
     }
-]) .then((answer) => {
+    ]) .then((answer) => {
     switch (answer.main) {
         case "employeesAll" : getEmployeeInformation ()
         break;
@@ -107,7 +107,7 @@ const getNewDepartmentInfo = () => {
 // Add New Role
 const getNewRoleInfo = () => {
 
-        inquirer
+    inquirer
            .prompt([
            {
                type: "input",
@@ -130,7 +130,7 @@ const getUpdateRoleInfo = () => {
                type: "input",
                name: "updateRole",
                message: "What role would you like to update?",
-           },
+           }
           
     ]).then((answers) => {
                 const updateRole = new updateRole (answers.updateRole)
@@ -139,3 +139,4 @@ const getUpdateRoleInfo = () => {
             })
         
 };
+
