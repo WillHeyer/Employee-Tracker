@@ -2,6 +2,8 @@ const inquirer = require('inquirer')
 const fs = require('fs');
 const express = require('express');
 
+
+// Main Menu Question and Switch
 const main = () => {
 
  inquirer
@@ -33,18 +35,22 @@ const main = () => {
     }
 })
 
+// View All Employees
 const getEmployeeInformation = () => {
 // SQL Database?
 }
 
+//View Employees By Department
 const getDepartmentInformation = () => {
     // SQL Database?
     }
 
+// View Employees By Roles
 const getEmployeeRolesInfo = () => {
         // SQL Database?
         }
 
+// Add New Employee
 const getNewEmployeeInfo = () => {
 
     inquirer
@@ -53,13 +59,11 @@ const getNewEmployeeInfo = () => {
            type: "input",
            name: "FN",
            message: "What is the firt name of the employee?",
-           
        },
        {
         type: "input",
         name: "LN",
         message: "What is the last name of the employee?",
-        
         },
         {
         type: "input",
@@ -81,28 +85,57 @@ const getNewEmployeeInfo = () => {
         // team.push(newEngineer)
         // employeeType()
     })
+}
 
+// Add New Department
+const getNewDepartmentInfo = () => {
 
-    
-    inquirer
-       .prompt([
-       {
-           type: "list",
-           name: "main",
-           message: "What would you like to do?",
-           choices: ["View all employees", "View employees by department", "View employees by role", "Add a new employee", "Add a new department", "Add a new role","Update employee roles",]
-       }
-    
-
-
-
-
-
-    
+        inquirer
+           .prompt([
+           {
+               type: "input",
+               name: "newDepartment",
+               message: "What is the name of the new department?",
+           }
     ]).then((answers) => {
-        const newEngineer = new Engineer(answers., answers.id, answers.email, answers.github)
-        team.push(newEngineer)
-        employeeType();
-    })
+                const newDepartment = new Department (answers.newDepartment)
+                // team.push(newEngineer)
+                // employeeType()
+            })
+    },
 
+// Add New Role
+const getNewRoleInfo = () => {
 
+        inquirer
+           .prompt([
+           {
+               type: "input",
+               name: "newRole",
+               message: "What is the name of the new role?",
+           }
+    ]).then((answers) => {
+                const newRole = new Role (answers.newRole)
+                // team.push(newEngineer)
+                // employeeType()
+            })
+        },
+
+// Update A Role
+const getUpdateRoleInfo = () => {
+
+        inquirer
+           .prompt([
+           {
+               type: "input",
+               name: "updateRole",
+               message: "What role would you like to update?",
+           },
+          
+    ]).then((answers) => {
+                const updateRole = new updateRole (answers.updateRole)
+                // team.push(newEngineer)
+                // employeeType()
+            })
+        
+};
