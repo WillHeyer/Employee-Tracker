@@ -24,7 +24,7 @@ const main = () => {
                 type: "list",
                 name: "main",
                 message: "What would you like to do?",
-                choices: ["View all employees", "View employees by department", "View employees by role", "Add a new employee", "Add a new department", "Add a new role", "Update employee roles",]
+                choices: ["View all employees", "View employees by department", "View employees by role", "Add a new employee", "Add a new department", "Add a new role", "Update employee roles", "Exit"]
             }
         ]).then((answer) => {
             switch (answer.main) {
@@ -42,7 +42,7 @@ const main = () => {
                     break;
                 case "Update employee roles": getUpdateRoleInfo()
                     break;
-                case "Exit": getSQL()
+                case "Exit":   connection.end();
                     break;
             }
         })
@@ -65,12 +65,34 @@ const main = () => {
     //View Employees By Department
     const getDepartmentInformation = () => {
 
-        connection.query("SELECT * FROM Department ", (err, queryResult) => {
+        inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "departmentID",
+                message: "What is the ID of the department?",
+            },
 
-            console.log(err)
-            console.table(queryResult);
+        ]).then((answers) => {
+            connection.query(`Select id from Role WHERE department_id = "${answers.departmentID}"`, (err, queryResult) => {
+                let whereStatement = "WHERE ";
+                
+                    queryResult.forEach((row, index) => {
+                        whereStatement+= `role_id = ${row.id}`
 
-            main();
+                        if(index < queryResult.length - 1)
+                        {
+                            whereStatement+= ' OR '
+                        }
+                    })
+
+                    connection.query(`Select * from Employee ${whereStatement}`, (err, queryResult2) => {
+                            console.log(err)
+                            console.table(queryResult2);
+    
+                            main();
+                    })
+            })
         })
     }
 
@@ -103,21 +125,16 @@ const main = () => {
                 },
                 {
                     type: "input",
-                    name: "title",
-                    message: "What is the their title?",
+                    name: "roleID",
+                    message: "What is their role ID?",
                 },
                 {
                     type: "input",
-                    name: "department",
-                    message: "What department are they in?",
-                },
-                {
-                    type: "input",
-                    name: "manager",
-                    message: "Who is their manager?",
+                    name: "managerID",
+                    message: "Who is their manager's ID?",
                 },
             ]).then((answers) => {
-                connection.query(`INSERT INTO Department (name) VALUES ("${answers.FN}", "${answers.LN}", "${answers.title}", "${answers.department}", "${answers.manager}" )`, (err, queryResult) => {
+                connection.query(`INSERT INTO Employee (first_name, last_name, role_id, manager_id) VALUES ("${answers.FN}", "${answers.LN}", "${answers.roleID}", "${answers.managerID}" )`, (err, queryResult) => {
 
                     console.log(err)
                     console.table(queryResult);
@@ -158,11 +175,21 @@ const main = () => {
             .prompt([
                 {
                     type: "input",
-                    name: "newRole",
-                    message: "What is the name of the new role?",
-                }
+                    name: "title",
+                    message: "What is the employees title?",
+                },
+                {
+                    type: "input",
+                    name: "salary",
+                    message: "What is the employees salary?",
+                },
+                {
+                    type: "input",
+                    name: "departmentID",
+                    message: "What is the employees department ID?",
+                },
             ]).then((answers) => {
-                connection.query(`INSERT INTO Department (name) VALUES ("${answers.newRole}")`, (err, queryResult) => {
+                connection.query(`INSERT INTO Role (title, salary, department_id ) VALUES ("${answers.title}", "${answers.salary}", "${answers.departmentID}")`, (err, queryResult) => {
 
                     console.log(err)
                     console.table(queryResult);
@@ -179,17 +206,25 @@ const main = () => {
             .prompt([
                 {
                     type: "input",
-                    name: "updateRole",
-                    message: "What role would you like to update?",
-                }
+                    name: "employeeID",
+                    message: "What is the ID of the employee you'd like to update?",
+                },
+                {
+                    type: "input",
+                    name: "updateID",
+                    message: "What is the employee's new role ID?",
+                },
 
             ]).then((answers) => {
-                const updateRole = new updateRole(answers.updateRole)
-            
+                connection.query(`UPDATE Employee set role_id = "${answers.updateID}" WHERE id = "${answers.employeeID}"`, (err, queryResult) => {
+
+                    console.log(err)
+                    console.table(queryResult);
+        
+                    main();
+                })
             })
-
     }
-
 
     connection.connect(() => {
         console.log('Successfully connected to database!')

@@ -1,4 +1,4 @@
-USE employee_trackerDB
+USE employee_trackerDB;
 
 INSERT INTO Department (name)
 VALUES ("Engineering"), ("HR"),("Sales"),("Finance"), ("Marketing");
