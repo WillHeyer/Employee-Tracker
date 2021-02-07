@@ -76,7 +76,7 @@ const main = () => {
         ]).then((answers) => {
             connection.query(`Select id from Role WHERE department_id = "${answers.departmentID}"`, (err, queryResult) => {
                 let whereStatement = "WHERE ";
-                
+
                     queryResult.forEach((row, index) => {
                         whereStatement+= `role_id = ${row.id}`
 
@@ -98,14 +98,22 @@ const main = () => {
 
     // View Employees By Roles
     const getEmployeeRolesInfo = () => {
-
-      connection.query("SELECT * FROM Role ", (err, queryResult) => {
+        inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "roleID",
+                message: "What is the ID of the role?",
+            },
+        ]).then((answers) => {
+      connection.query(`SELECT * FROM Role WHERE role_id = "${answers.roleID}`, (err, queryResult) => {
 
             console.log(err)
             console.table(queryResult);
 
             main();
         })
+    })
     }
 
     // Add New Employee
